@@ -13,6 +13,40 @@ The core focus of this project is the **pipeline infrastructure** rather than th
 The ML workflow is designed using **Object-Oriented Programming (OOP) principles** and the **Strategy Design Pattern**, enabling easy extension or substitution of components like data preprocessing, splitting, and model evaluation.
 
 ---
+## Pipeline Architecture Diagram
+
+```mermaid
+flowchart TD
+    %% Training Pipeline
+    A[CSV Data: olist_customers_dataset.csv] --> B[Data Ingestion Step]
+    B --> C[Data Cleaning Step]
+    C --> D[Model Training Step]
+    D --> E[Model Evaluation Step]
+    
+    %% Continuous Deployment Pipeline
+    E --> F{Evaluation Trigger: R² ≥ 0.92?}
+    F -- Yes --> G[ZenFlow Deployment Ready]
+    F -- No --> H[Skip Deployment]
+
+    %% Post-deployment persistence
+    G --> I[MLFlow Model Tracking Persistence]
+    H --> I[MLFlow Model Tracking Persistence]
+
+    %% Optional: feedback loop for retraining
+    I --> B[Data Ingestion Step]
+
+    %% Styles with darker backgrounds and readable text
+    style A fill:#993399,stroke:#333,stroke-width:2px,color:#fff
+    style B fill:#3366cc,stroke:#333,stroke-width:2px,color:#fff
+    style C fill:#3366cc,stroke:#333,stroke-width:2px,color:#fff
+    style D fill:#3366cc,stroke:#333,stroke-width:2px,color:#fff
+    style E fill:#3366cc,stroke:#333,stroke-width:2px,color:#fff
+    style F fill:#ff9900,stroke:#333,stroke-width:2px,color:#000
+    style G fill:#339933,stroke:#333,stroke-width:2px,color:#fff
+    style H fill:#cc3333,stroke:#333,stroke-width:2px,color:#fff
+    style I fill:#666666,stroke:#333,stroke-width:2px,color:#fff
+
+```
 
 ## Pipeline Architecture
 
@@ -114,35 +148,6 @@ We used the **Olist Store Public Dataset** from Kaggle: [Brazilian E-Commerce Da
 - MLOps Integration: Demonstrates best practices for CI/CD in ML projects.
 - Business Impact: Predicting customer dissatisfaction proactively can drive retention strategies and improve customer experience.
 
-## Pipeline Architecture Diagram
-
-```mermaid
-flowchart TD
-    %% Training Pipeline
-    A[CSV Data: olist_customers_dataset.csv] --> B[Data Ingestion Step]
-    B --> C[Data Cleaning Step]
-    C --> D[Model Training Step]
-    D --> E[Model Evaluation Step]
-    
-    %% Continuous Deployment Pipeline
-    E --> F{Evaluation Trigger: R² ≥ 0.92?}
-    F -- Yes --> G[ZenFlow Deployment Ready]
-    F -- No --> H[Skip Deployment]
-
-    %% Post-deployment persistence
-    G --> I[MLFlow Model Tracking Persistence]
-    H --> I[MLFlow Model Tracking Persistence]
-
-    %% Optional: feedback loop for retraining
-    I --> B[Data Ingestion Step]
-    style A fill:#f9f,stroke:#333,stroke-width:2px
-    style B fill:#bbf,stroke:#333,stroke-width:2px
-    style C fill:#bbf,stroke:#333,stroke-width:2px
-    style D fill:#bbf,stroke:#333,stroke-width:2px
-    style E fill:#bbf,stroke:#333,stroke-width:2px
-    style F fill:#ffb,stroke:#333,stroke-width:2px
-    style G fill:#bfb,stroke:#333,stroke-width:2px
-```
 
 ## How It Works
 
