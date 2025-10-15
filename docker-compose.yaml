@@ -1,0 +1,27 @@
+services:
+  mlflow_app:
+    image: python:3.12-slim
+    container_name: mlflow_app
+    working_dir: /mlflow
+    command: >
+      sh -c "pip install mlflow && mlflow server
+      --backend-store-uri sqlite:///mlflow.db
+      --default-artifact-root /mlflow/artifacts
+      --host 0.0.0.0 --port 5000"
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./mlflow:/mlflow
+
+  zenml_app:
+    build: .
+    container_name: zenml_app
+    depends_on:
+      - mlflow_app
+    environment:
+      - ZENML_STORE_URL=sqlite:////app/zenml.db
+      - ZENML_LOGGING_VERBOSITY=INFO
+    volumes:
+      - ./zenml_data:/app   # cria persistência local do ZenML
+    ports:
+      - "8237:8237"

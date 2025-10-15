@@ -1,0 +1,14 @@
+/venv
+/.zen
+/backup
+/saved_model
+/mlflow.db
+/mlruns
+/backup
+/zenml_data
+/.zen
+
+# Python cache files
+__pycache__/
+*.pyc
+*.pyo
